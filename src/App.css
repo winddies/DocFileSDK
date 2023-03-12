@@ -1,11 +1,44 @@
-.App {
+
+
+.box {
+  display: flex;
+  align-items: center;
+}
+
+.child1 {
+  width: 30%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
+
+
+.ck-editor__editable_inline {
+  min-height: 400px;
+  max-width: 550px;
+}
+
+.controllerBtn {
+  margin-bottom: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#editor {
+  margin-top: 200px
+}
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
