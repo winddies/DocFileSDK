@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 import { Upload, Button, Alert } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import html2pdf from 'html2pdf.js';
 // import docx2html from 'docx2html';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import * as docx from 'docx-preview';
 // import { template } from './template';
 import Editor from './Editor';
@@ -55,6 +55,7 @@ function App() {
   const [initialData, setInitialData] = useState('');
   const [showEditor, setShowEditor] = useState(false);
   const EditorRef = useRef();
+  const fileName = useRef();
 
   // const convert = (arrayBuffer) => {
   //   convertToHtml({ arrayBuffer }, options).then((result) => {
@@ -67,10 +68,18 @@ function App() {
 
   const handleFileChange = async (info) => {
     const { originFileObj } = info.file;
+    fileName.current = originFileObj.name;
 
-    await docx.renderAsync(originFileObj, document.querySelector('#preview'), null, { inWrapper: false });
-    const html = document.querySelector('#preview').innerHTML;
-    setInitialData(html);
+    await docx.renderAsync(originFileObj, document.querySelector('#preview'), null, {
+      inWrapper: false,
+      breakPages: true,
+    });
+
+    setTimeout(() => {
+      const html = document.querySelector('#preview').innerHTML;
+      setInitialData(html);
+    }, 500);
+
     // window.docx2html(originFileObj, document.querySelector('#editor'));
     // readFileInputEventAsArrayBuffer(originFileObj, convert);
   };
@@ -89,7 +98,15 @@ function App() {
   };
 
   const exportToPDF = () => {
-    html2pdf(EditorRef.current.getData());
+    console.log('start export##', fileName.current);
+    const data = EditorRef.current.getData();
+    fileName.current = fileName.current.replace(/\.docx/, '');
+
+    html2pdf(data, {
+      margin: [10, 0, 10, 0],
+      pagebreak: { mode: 'avoid-all', avoid: 'img' },
+      filename: `${fileName.current}.pdf`,
+    });
   };
 
   return (
@@ -107,10 +124,16 @@ function App() {
             </Upload>
             {initialData && (
               <>
-                <Button onClick={preview}>预览</Button>
-                <Button onClick={handleEdit}>编辑</Button>
+                <Button onClick={preview} icon={<EyeOutlined />}>
+                  预览
+                </Button>
+                <Button onClick={handleEdit} icon={<EditOutlined />}>
+                  编辑
+                </Button>
 
-                <Button onClick={exportToPDF}>导出为 PDF</Button>
+                <Button onClick={exportToPDF} icon={<DownloadOutlined />}>
+                  导出为 PDF
+                </Button>
               </>
             )}
           </div>
