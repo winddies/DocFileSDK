@@ -1,36 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
-import { Upload, Button } from 'antd';
+import { Upload, Button, Alert } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 
-import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
-import { convertToHtml } from 'mammoth/mammoth.browser';
+import html2pdf from 'html2pdf.js';
 // import docx2html from 'docx2html';
 import { useEffect, useRef, useState } from 'react';
 import * as docx from 'docx-preview';
-import { template } from './template';
+// import { template } from './template';
+import Editor from './Editor';
 
-function transformElement(element) {
-  console.log(element);
-  // if (element.children) {
-  //   var children = element.children.map(transformElement);
-  //   element = { ...element, children: children };
-  // }
-  // if (element.type === 'paragraph') {
-  //   if (element.inden)
-  //   element = transformParagraph(element);
-  // }
+// function transformElement(element) {
+//   console.log(element);
+// if (element.children) {
+//   var children = element.children.map(transformElement);
+//   element = { ...element, children: children };
+// }
+// if (element.type === 'paragraph') {
+//   if (element.inden)
+//   element = transformParagraph(element);
+// }
 
-  // if (element.type === 'text' && !element.value.trim()) {
-  //   element.value = element.value.replace(/( )/g, '\xa0');
-  // }
-  // return element;
-}
+// if (element.type === 'text' && !element.value.trim()) {
+//   element.value = element.value.replace(/( )/g, '\xa0');
+// }
+// return element;
+// }
 
 // function transformParagraph(element) {
 //   if (element.alignment === 'center' && !element.styleId) {
@@ -45,44 +40,21 @@ function transformElement(element) {
 //   transformDocument: transformElement,
 // };
 
-export function readFileInputEventAsArrayBuffer(file, callback) {
-  const reader = new FileReader();
+// export function readFileInputEventAsArrayBuffer(file, callback) {
+//   const reader = new FileReader();
 
-  reader.onload = function (loadEvent) {
-    const arrayBuffer = loadEvent.target['result'];
-    callback(arrayBuffer);
-  };
+//   reader.onload = function (loadEvent) {
+//     const arrayBuffer = loadEvent.target['result'];
+//     callback(arrayBuffer);
+//   };
 
-  reader.readAsArrayBuffer(file);
-}
+//   reader.readAsArrayBuffer(file);
+// }
 
 function App() {
-  const [currentData, setCurrentData] = useState('');
-  const editor = useRef(null);
-
-  useEffect(() => {
-    ClassicEditor.create(document.querySelector('#editor'), {
-      plugins: [Essentials, Paragraph, Bold, Italic, GeneralHtmlSupport],
-      toolbar: ['bold', 'italic'],
-      htmlSupport: {
-        allow: [
-          {
-            name: /.*/,
-            attributes: true,
-            classes: true,
-            styles: true,
-          },
-        ],
-      },
-    })
-      .then((value) => {
-        editor.current = value;
-        console.log('value##', value);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const [initialData, setInitialData] = useState('');
+  const [showEditor, setShowEditor] = useState(false);
+  const EditorRef = useRef();
 
   // const convert = (arrayBuffer) => {
   //   convertToHtml({ arrayBuffer }, options).then((result) => {
@@ -93,46 +65,63 @@ function App() {
   //   });
   // };
 
-  const handleFileChange = (info) => {
+  const handleFileChange = async (info) => {
     const { originFileObj } = info.file;
 
-    docx.renderAsync(originFileObj, document.querySelector('#preview'), null, { inWrapper: false });
+    await docx.renderAsync(originFileObj, document.querySelector('#preview'), null, { inWrapper: false });
+    const html = document.querySelector('#preview').innerHTML;
+    setInitialData(html);
     // window.docx2html(originFileObj, document.querySelector('#editor'));
     // readFileInputEventAsArrayBuffer(originFileObj, convert);
   };
 
   const handleEdit = () => {
-    const innerHTML = document.querySelector('#preview').innerHTML;
-
-    document.querySelector('#preview').style = 'display: none';
-    editor.current.setData(innerHTML);
+    setShowEditor(true);
   };
 
   const preview = () => {
-    document.querySelector('#editor').style = 'display: none';
-    document.querySelector('#preview').style = 'display: normal';
-    const html = editor.current.getData();
+    if (!showEditor) return;
+
+    setShowEditor(false);
+    const html = EditorRef.current.getData();
+    console.log('html###', html);
     document.querySelector('#preview').innerHTML = html;
+  };
+
+  const exportToPDF = () => {
+    html2pdf(EditorRef.current.getData());
   };
 
   return (
     <div className="App">
       <div className="box">
         <div className="child1">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo" width={150} />
         </div>
         <div className="child2">
           <div className="controllerBtn">
             <Upload onChange={handleFileChange}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Button icon={<UploadOutlined />} type="primary">
+                Click to Upload
+              </Button>
             </Upload>
-            <Button onClick={preview}>预览</Button>
-            <Button onClick={handleEdit}>编辑</Button>
+            {initialData && (
+              <>
+                <Button onClick={preview}>预览</Button>
+                <Button onClick={handleEdit}>编辑</Button>
 
-            <Button>导出为 PDF</Button>
+                <Button onClick={exportToPDF}>导出为 PDF</Button>
+              </>
+            )}
           </div>
-          <div id="preview"></div>
-          <div id="editor"></div>
+          <div
+            className={`previewContainer ${initialData ? 'addPadding' : ''}`}
+            {...(showEditor && { style: { display: 'none' } })}
+          >
+            {!initialData && <Alert message="请点击上面按钮选择 word 文档" />}
+            <div id="preview"></div>
+          </div>
+          <Editor data={initialData} showEditor={showEditor} ref={EditorRef} />
         </div>
       </div>
     </div>

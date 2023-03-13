@@ -1,16 +1,20 @@
-
-
 .box {
   display: flex;
   align-items: center;
 }
 
 .child1 {
-  width: 30%;
+  width: 25%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.child2 {
+  width: 60%;
+  height: 100vh;
+  padding-top: 50px;
 }
 
 .center {
@@ -24,20 +28,28 @@
 
 
 .ck-editor__editable_inline {
-  min-height: 400px;
-  max-width: 550px;
+  max-height: 100vh;
+  max-width: 900px;
 }
 
 .controllerBtn {
-  margin-bottom: 150px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: space-between;
 }
 
-#editor {
-  margin-top: 200px
+.previewContainer {
+  background: gray;
+  overflow: auto;
 }
 
+.addPadding {
+  padding: 30px;
+}
+
+#preview {
+  background: #fff;
+}
 
 
 @media (prefers-reduced-motion: no-preference) {
@@ -65,6 +77,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
