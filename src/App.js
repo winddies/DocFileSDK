@@ -119,7 +119,7 @@ function App() {
           <div className="controllerBtn">
             <Upload onChange={handleFileChange} className="upload-btn">
               <Button icon={<UploadOutlined />} type="primary">
-                Click to Upload
+                Click to Upload File(.docx)
               </Button>
             </Upload>
             {initialData && (
@@ -156,7 +156,9 @@ function App() {
             className={`previewContainer ${initialData ? 'addPadding' : ''}`}
             {...(showEditor && { style: { display: 'none' } })}
           >
-            {!initialData && <Alert message="请点击上面按钮选择 word 文档" />}
+            {!initialData && (
+              <Alert message="请点击上面按钮选择 .docx 类型的 word 文档，注意：2004之前的 .doc 类型 word 不支持" />
+            )}
             <div id="preview"></div>
           </div>
           <Editor data={initialData} showEditor={showEditor} ref={EditorRef} />
