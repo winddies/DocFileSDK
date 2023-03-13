@@ -117,21 +117,36 @@ function App() {
         </div>
         <div className="child2">
           <div className="controllerBtn">
-            <Upload onChange={handleFileChange}>
+            <Upload onChange={handleFileChange} className="upload-btn">
               <Button icon={<UploadOutlined />} type="primary">
                 Click to Upload
               </Button>
             </Upload>
             {initialData && (
               <>
-                <Button onClick={preview} icon={<EyeOutlined />}>
+                <Button
+                  onClick={preview}
+                  icon={<EyeOutlined />}
+                  className="file-button"
+                  style={{ background: '#fff7e6' }}
+                >
                   预览
                 </Button>
-                <Button onClick={handleEdit} icon={<EditOutlined />}>
+                <Button
+                  onClick={handleEdit}
+                  icon={<EditOutlined />}
+                  className="file-button"
+                  style={{ background: '#feffe6' }}
+                >
                   编辑
                 </Button>
 
-                <Button onClick={exportToPDF} icon={<DownloadOutlined />}>
+                <Button
+                  onClick={exportToPDF}
+                  icon={<DownloadOutlined />}
+                  className="file-button"
+                  style={{ background: '#e6fffb' }}
+                >
                   导出为 PDF
                 </Button>
               </>

@@ -32,9 +32,16 @@
 }
 
 .controllerBtn {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
+}
+
+.upload-btn {
+  margin-right: 70px
+}
+
+.file-button {
+  margin-right: 70px !important;
 }
 
 .previewContainer {
