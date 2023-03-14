@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 import * as docx from 'docx-preview';
 // import { template } from './template';
 import Editor from './Editor';
+import { ParseModal } from './Modal';
 
 // function transformElement(element) {
 //   console.log(element);
@@ -52,9 +53,10 @@ import Editor from './Editor';
 // }
 
 function App() {
-  const [initialData, setInitialData] = useState('');
+  const [previewData, setPreviewData] = useState('');
   const [showEditor, setShowEditor] = useState(false);
-  const EditorRef = useRef();
+  const [showParserModal, setShowParserModal] = useState(false);
+  const editorRef = useRef();
   const fileName = useRef();
 
   // const convert = (arrayBuffer) => {
@@ -77,7 +79,7 @@ function App() {
 
     setTimeout(() => {
       const html = document.querySelector('#preview').innerHTML;
-      setInitialData(html);
+      setPreviewData(html);
     }, 500);
 
     // window.docx2html(originFileObj, document.querySelector('#editor'));
@@ -86,20 +88,20 @@ function App() {
 
   const handleEdit = () => {
     setShowEditor(true);
+    setPreviewData(document.querySelector('#preview').innerHTML);
   };
 
   const preview = () => {
     if (!showEditor) return;
 
     setShowEditor(false);
-    const html = EditorRef.current.getData();
+    const html = editorRef.current.getData();
     console.log('html###', html);
     document.querySelector('#preview').innerHTML = html;
   };
 
   const exportToPDF = () => {
-    console.log('start export##', fileName.current);
-    const data = EditorRef.current.getData();
+    const data = editorRef.current.getData();
     fileName.current = fileName.current.replace(/\.docx/, '');
 
     html2pdf(data, {
@@ -107,6 +109,19 @@ function App() {
       pagebreak: { mode: 'avoid-all', avoid: 'img' },
       filename: `${fileName.current}.pdf`,
     });
+  };
+
+  const handleReplace = (replaceInfo) => {
+    const { match, target } = replaceInfo;
+    const data = showEditor ? editorRef.current.getData() : previewData;
+    const result = data.replace(new RegExp(match, 'g'), target);
+    if (showEditor) {
+      editorRef.current.setData(result);
+    } else {
+      document.querySelector('#preview').innerHTML = result;
+    }
+
+    setShowParserModal(false);
   };
 
   return (
@@ -117,12 +132,12 @@ function App() {
         </div>
         <div className="child2">
           <div className="controllerBtn">
-            <Upload onChange={handleFileChange} className="upload-btn">
+            <Upload onChange={handleFileChange} className="upload-btn" showUploadList={false}>
               <Button icon={<UploadOutlined />} type="primary">
                 Click to Upload File(.docx)
               </Button>
             </Upload>
-            {initialData && (
+            {previewData && (
               <>
                 <Button
                   onClick={preview}
@@ -142,6 +157,14 @@ function App() {
                 </Button>
 
                 <Button
+                  onClick={() => setShowParserModal(true)}
+                  className="file-button"
+                  style={{ background: '#f4ffb8' }}
+                >
+                  解析替换
+                </Button>
+
+                <Button
                   onClick={exportToPDF}
                   icon={<DownloadOutlined />}
                   className="file-button"
@@ -153,17 +176,18 @@ function App() {
             )}
           </div>
           <div
-            className={`previewContainer ${initialData ? 'addPadding' : ''}`}
+            className={`previewContainer ${previewData ? 'addPadding' : ''}`}
             {...(showEditor && { style: { display: 'none' } })}
           >
-            {!initialData && (
+            {!previewData && (
               <Alert message="请点击上面按钮选择 .docx 类型的 word 文档，注意：2004之前的 .doc 类型 word 不支持" />
             )}
             <div id="preview"></div>
           </div>
-          <Editor data={initialData} showEditor={showEditor} ref={EditorRef} />
+          <Editor data={previewData} showEditor={showEditor} ref={editorRef} />
         </div>
       </div>
+      <ParseModal isOpen={showParserModal} onOk={handleReplace} onCancel={() => setShowParserModal(false)} />
     </div>
   );
 }
