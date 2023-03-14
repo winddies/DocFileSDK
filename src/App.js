@@ -114,9 +114,8 @@ function App() {
   const handleReplace = (replaceInfo) => {
     const { match, target } = replaceInfo;
     const data = showEditor ? editorRef.current.getData() : previewData;
-    console.log('replaceInfo', replaceInfo);
     const result = data.replace(new RegExp(match, 'g'), target);
-    console.log('result', result);
+    console.log('replace result------:', result);
     if (showEditor) {
       editorRef.current.setData(result);
     } else {
