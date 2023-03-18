@@ -3,7 +3,9 @@ import './App.css';
 import { Upload, Button, Alert } from 'antd';
 import { UploadOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
-import html2pdf from 'html2pdf.js';
+import html2pdf from './html2pdf';
+// import html2PDF from './jspdf';
+
 // import docx2html from 'docx2html';
 import { useRef, useState } from 'react';
 import * as docx from 'docx-preview';
@@ -75,6 +77,7 @@ function App() {
     await docx.renderAsync(originFileObj, document.querySelector('#preview'), null, {
       inWrapper: false,
       breakPages: true,
+      ignoreLastRenderedPageBreak: true,
     });
 
     setTimeout(() => {
@@ -98,16 +101,39 @@ function App() {
     const html = editorRef.current.getData();
     console.log('html###', html);
     document.querySelector('#preview').innerHTML = html;
+    setPreviewData(html);
   };
 
   const exportToPDF = () => {
     const data = editorRef.current.getData();
     fileName.current = fileName.current.replace(/\.docx/, '');
 
-    html2pdf(data, {
-      margin: [10, 0, 10, 0],
+    // html2PDF(document.querySelector('#preview'), {
+    //   output: `${fileName.current}.pdf`,
+    //   margin: { bottom: 10, top: 10 },
+    // });
+
+    console.log('download start');
+
+    // html2pdf()
+    //   .set({
+    //     margin: [0, 0, 0, 0],
+    //     pagebreak: { mode: 'avoid-all' },
+    //     filename: `${fileName.current}.pdf`,
+    //     html2canvas: { useCORS: true, scale: 4 },
+    //     jsPDF: { unit: 'mm', format: 'letter', orientation: 'p' },
+    //   })
+    //   .from(data)
+    //   .save();
+
+    // console.log('pdf:###', pdf);
+
+    html2pdf(document.querySelector('#preview'), {
+      margin: [0, 0, 0, 0],
       pagebreak: { mode: 'avoid-all', avoid: 'img' },
       filename: `${fileName.current}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'p' },
     });
   };
 

@@ -4,6 +4,7 @@ import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting'
 
 import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
 import { forwardRef, useImperativeHandle, useEffect, useRef } from 'react';
@@ -21,8 +22,8 @@ export default forwardRef(function Editor({ showEditor, data }, dataRef) {
         if (editor.current) return
 
         ClassicEditor.create(document.querySelector('#editor'), {
-            plugins: [GeneralHtmlSupport, Essentials, Paragraph, Bold, Italic],
-            toolbar: ['bold', 'italic'],
+            plugins: [GeneralHtmlSupport, Essentials, Paragraph, Bold, Italic, SourceEditing],
+            toolbar: ['bold', 'italic', 'sourceEditing'],
             htmlSupport: {
                 allow: [
                     {
