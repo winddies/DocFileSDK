@@ -102,6 +102,7 @@ Worker.prototype.to = function to(target) {
 };
 
 Worker.prototype.toContainer = function toContainer() {
+  debugger;
   // Set up function prerequisites.
   var prereqs = [
     function checkSrc() {
@@ -126,7 +127,7 @@ Worker.prototype.toContainer = function toContainer() {
     };
     var containerCSS = {
       position: 'absolute',
-      width: this.prop.pageSize.inner.width + this.prop.pageSize.unit,
+      width: Math.ceil(this.prop.pageSize.inner.width) + this.prop.pageSize.unit,
       left: 0,
       right: 0,
       top: 0,
@@ -163,7 +164,11 @@ Worker.prototype.toCanvas = function toCanvas() {
       var options = Object.assign({}, this.opt.html2canvas);
       delete options.onrendered;
 
-      return html2canvas(this.prop.container, options);
+      const req = html2canvas(this.prop.container, options);
+      req.then(() => {
+        console.log('container##$$', this.prop.container);
+      });
+      return req;
     })
     .then(function toCanvas_post(canvas) {
       // Handle old-fashioned 'onrendered' argument.

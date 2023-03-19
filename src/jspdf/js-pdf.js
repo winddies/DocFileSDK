@@ -56,8 +56,6 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
   // height which not yet print to PDF.
   let leftHeight = imgHeight;
 
-  debugger;
-
   // check if need reset position(change node)
   if (position < 0) {
     pdf.addPage();
@@ -180,6 +178,7 @@ async function html2PDF(dom, opts = {}) {
   } else {
     // single page for one node
     const canvas = await html2canvas(dom, opts.html2canvas);
+    console.log('canvas 2', dom, opts.html2canvas, canvas.width, canvas.height);
     onCanvasRendered(canvas, pdfInstance, opts);
   }
 

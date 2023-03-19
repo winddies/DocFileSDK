@@ -4,7 +4,7 @@ import { Upload, Button, Alert } from 'antd';
 import { UploadOutlined, DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 import html2pdf from './html2pdf';
-// import html2PDF from './jspdf';
+import html2PDF from './jspdf';
 
 // import docx2html from 'docx2html';
 import { useRef, useState } from 'react';
@@ -12,6 +12,7 @@ import * as docx from 'docx-preview';
 // import { template } from './template';
 import Editor from './Editor';
 import { ParseModal } from './Modal';
+import html2canvas from 'html2canvas';
 
 // function transformElement(element) {
 //   console.log(element);
@@ -104,10 +105,12 @@ function App() {
     setPreviewData(html);
   };
 
-  const exportToPDF = () => {
+  const exportToPDF = async () => {
     const data = editorRef.current.getData();
     fileName.current = fileName.current.replace(/\.docx/, '');
 
+    const canvas = await html2canvas(document.querySelector('#preview'));
+    console.log('canvas 1', canvas.width, canvas.height);
     // html2PDF(document.querySelector('#preview'), {
     //   output: `${fileName.current}.pdf`,
     //   margin: { bottom: 10, top: 10 },
@@ -115,26 +118,32 @@ function App() {
 
     console.log('download start');
 
-    // html2pdf()
-    //   .set({
-    //     margin: [0, 0, 0, 0],
-    //     pagebreak: { mode: 'avoid-all' },
-    //     filename: `${fileName.current}.pdf`,
-    //     html2canvas: { useCORS: true, scale: 4 },
-    //     jsPDF: { unit: 'mm', format: 'letter', orientation: 'p' },
-    //   })
-    //   .from(data)
-    //   .save();
+    html2pdf()
+      .set({
+        margin: [0, 0, 0, 0],
+        // pagebreak: { mode: 'avoid-all' },
+        filename: `${fileName.current}.pdf`,
+        html2canvas: { imageTimeout: 15000, logging: true, useCORS: false },
+        // jsPDF: { unit: 'mm', format: 'letter', orientation: 'p' },
+      })
+      .from(data)
+      .save();
+
+    // html2PDF(document.querySelector('#preview'), {
+    //   output: `${fileName.current}.pdf`,
+    //   margin: { bottom: 10, top: 10 },
+    // });
 
     // console.log('pdf:###', pdf);
 
-    html2pdf(document.querySelector('#preview'), {
-      margin: [0, 0, 0, 0],
-      pagebreak: { mode: 'avoid-all', avoid: 'img' },
-      filename: `${fileName.current}.pdf`,
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'p' },
-    });
+    // html2pdf(data, {
+    //   margin: [5, 0, 5, 0],
+    //   pagebreak: { mode: 'avoid-all', avoid: 'img' },
+    //   filename: `${fileName.current}.pdf`,
+    //   // container: document.querySelector('#preview'),
+    //   // html2canvas: { useCORS: true, scale: 2 },
+    //   // jsPDF: { unit: 'mm', format: 'a4', orientation: 'p' },
+    // });
   };
 
   const handleReplace = (replaceInfo) => {
