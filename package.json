@@ -1,5 +1,5 @@
 {
-  "name": "@bud-fe/file-sdk",
+  "name": "wind-file-sdk",
   "version": "1.0.0-beta.4",
   "main": "dist/index.esm.js",
   "module": "dist/index.esm.js",
@@ -17,11 +17,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.ab-inbev.cn/ab-inbev-apac/bud-fe-file-sdk"
+    "url": "https://github.com/winddies/DocFileTest"
   },
-  "author": "heng.zhang2@budweiserapac.com",
+  "author": "winddies226@gmail.com",
   "bugs": {
-    "url": "https://github.ab-inbev.cn/ab-inbev-apac/bud-fe-file-sdk/issues"
+    "url": "https://github.com/winddies/DocFileTest/issues"
   },
   "files": [
     "dist"

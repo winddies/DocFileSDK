@@ -4,11 +4,11 @@ const {
   addWebpackAlias,
   babelInclude,
   removeModuleScopePlugin,
-} = require("customize-cra");
+} = require('customize-cra');
 // Use the `tap` function to output the config files for debugging.
 // const { addWebpackModuleRule, adjustStyleLoaders, override, tap} = require('customize-cra');
-const { styles } = require("@ckeditor/ckeditor5-dev-utils");
-const path = require("path");
+const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+const path = require('path');
 
 module.exports = override(
   // Outputs current config to "customize-cra--before.log", with a prepended message
@@ -27,7 +27,7 @@ module.exports = override(
   // (1) Add new rules
   addWebpackModuleRule({
     test: /\.svg$/,
-    use: ["raw-loader"],
+    use: ['raw-loader'],
   }),
   addWebpackModuleRule(
     // {
@@ -46,35 +46,35 @@ module.exports = override(
       test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
       use: [
         {
-          loader: "style-loader",
+          loader: 'style-loader',
           // The options are slightly different from what CKE has on their
           // integration guide, b/c we have an older version of style-loader
           // installed for some reason (v0.23.1, instead of v1+).
           options: {
-            injectType: "singletonStyleTag",
+            injectType: 'singletonStyleTag',
             attributes: {
-              "data-cke": true,
+              'data-cke': true,
             },
           },
         },
-        "css-loader",
+        'css-loader',
         {
-          loader: "postcss-loader",
+          loader: 'postcss-loader',
           options: {
             postcssOptions: styles.getPostCssConfig({
               themeImporter: {
-                themePath: require.resolve("@ckeditor/ckeditor5-theme-lark"),
+                themePath: require.resolve('@ckeditor/ckeditor5-theme-lark'),
               },
               minify: true,
             }),
           },
         },
       ],
-    }
+    },
   ),
   addWebpackAlias({
     /* 本地调试 request package 直接访问源码以触发 hmr 避免每次重新构建 */
-    "@bud-fe/file-sdk": path.resolve(__dirname, `../src`),
+    'wind-file-sdk': path.resolve(__dirname, `../src`),
   }),
-  babelInclude([path.resolve("src"), path.resolve(__dirname, `../src`)])
+  babelInclude([path.resolve('src'), path.resolve(__dirname, `../src`)]),
 );

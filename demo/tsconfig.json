@@ -17,7 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@bud-fe/file-sdk": ["../src"]
+      "wind-file-sdk": ["../src"]
     }
 
     // "typeRoots": ["./types", "./node_modules/@types"]

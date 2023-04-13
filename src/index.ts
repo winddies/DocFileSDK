@@ -1,3 +1,3 @@
-import ABIFileSdk from './core';
+import FileSdk from './core';
 
-export default ABIFileSdk;
+export default FileSdk;

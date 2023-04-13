@@ -1,18 +1,15 @@
-# bud-fe-file-sdk
+# wind-file-sdk
 
 > 文件处理、渲染、编辑工具包，编辑器基于 [CKEditor5](https://ckeditor.com/ckeditor-5/) 做自定义构建，在编辑器的工具栏里扩展了一些如：pdf 下载、占位符、word 导入等插件; 支持对 docx 文件的预览和编辑，支持 html 转 PDF 的下载。
-
-![npm (scoped)](https://img.shields.io/npm/v/@bud-fe/file-sdk?style=flat-square)
-![npm](https://img.shields.io/npm/dt/@bud-fe/file-sdk?style=flat-square)
 
 ## 安装与使用
 
 ```bash
-pnpm add @bud-fe/file-sdk
+pnpm add wind-file-sdk
 ```
 
 ```typescript
-import ABIFileSDK from '@bud-fe/file-sdk';
+import FileSdk from 'wind-file-sdk';
 ```
 
 ## API 接口
@@ -29,7 +26,7 @@ export interface IEditorConfig {
 }
 
 // 创建 editor 实例
-ABIFileSdk.createEditor('#editor', {
+FileSdk.createEditor('#editor', {
       placeholderConfig: { type: 'select', options: ['value1', 'value2']}, // 不传 placeholderConfig 配置时默认以 input 形式
       hideToolbarItems: ['exportToPDF', 'importFromWord'], // 需要隐藏的工具栏插件
       height: 800
@@ -69,16 +66,16 @@ export interface Options {
   className: string; // 预览文档的样式类名
 }
 
-ABIFileSdk.docxPreview(file, '#preview');
-ABIFileSdk.docxPreview(file, '#preview', { className: 'preview', inWrapper: true });
+FileSdk.docxPreview(file, '#preview');
+FileSdk.docxPreview(file, '#preview', { className: 'preview', inWrapper: true });
 ```
 
 ### htmlToPdf: 基于 html2pdf 的 pdf 下载功能，优化了原有的 pdf 格式
 
 ```typescript
 const html = '...' // 获取一段 html 字符串
-ABIFileSdk.htmlToPdf(html, 'abi-file') //导出名为 abi-file 的 pdf 文件
-ABIFileSdk.htmlToPdf(html, 'abi-file', {
+FileSdk.htmlToPdf(html, 'abi-file') //导出名为 abi-file 的 pdf 文件
+FileSdk.htmlToPdf(html, 'abi-file', {
     margin: [5, 0, 5, 0],
     ...
 })
@@ -211,7 +208,7 @@ ABIFileSdk.htmlToPdf(html, 'abi-file', {
 
 ```typescript
 const html = '...'; // 获取一段 html 字符串
-ABIFileSdk.htmlPreview('#preview', html);
+FileSdk.htmlPreview('#preview', html);
 ```
 
 ## License

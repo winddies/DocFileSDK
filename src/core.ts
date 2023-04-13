@@ -24,7 +24,7 @@ export interface IExportToPDFConfig {
   jsPDF?: Record<string, any>;
 }
 
-export default class ABIFileSdk {
+export default class FileSdk {
   static createEditor(source: HTMLElement | string, editorConfig?: IEditorConfig): Promise<Editor> {
     const container = getContainer(source);
     return Editor.init(container, editorConfig);
