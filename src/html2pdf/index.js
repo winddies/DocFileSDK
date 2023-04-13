@@ -1,7 +1,8 @@
-import Worker from './worker.js';
+/* eslint-disable */
+import './plugin/hyperlinks.js';
 import './plugin/jspdf-plugin.js';
 import './plugin/pagebreaks.js';
-import './plugin/hyperlinks.js';
+import Worker from './worker.js';
 
 /**
  * Generate a PDF from an HTML element or string using html2canvas and jsPDF.

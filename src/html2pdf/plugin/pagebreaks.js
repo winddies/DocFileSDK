@@ -1,5 +1,6 @@
+/* eslint-disable */
+import { createElement } from '../utils.js';
 import Worker from '../worker.js';
-import { objType, createElement } from '../utils.js';
 
 /* Pagebreak plugin:
 

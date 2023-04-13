@@ -1,7 +1,8 @@
-import { jsPDF } from 'jspdf';
-import * as html2canvas from 'html2canvas';
-import { objType, createElement, cloneNode, toPx } from './utils.js';
+/* eslint-disable */
 import es6promise from 'es6-promise';
+import * as html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import { cloneNode, createElement, objType, toPx } from './utils.js';
 var Promise = es6promise.Promise;
 
 /* ----- CONSTRUCTOR ----- */
@@ -102,7 +103,6 @@ Worker.prototype.to = function to(target) {
 };
 
 Worker.prototype.toContainer = function toContainer() {
-  debugger;
   // Set up function prerequisites.
   var prereqs = [
     function checkSrc() {

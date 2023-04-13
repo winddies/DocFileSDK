@@ -1,0 +1,19 @@
+.ck.ck-placeholder-form {
+  padding: var(--ck-spacing-large);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: var(--ck-spacing-standard);
+}
+
+.ck.ck-placeholder-form .ck.ck-labeled-field-view:nth-of-type(1) {
+  grid-area: 1 / 1 / 2 / 3;
+}
+
+.ck.ck-placeholder-form .ck-button:nth-of-type(1) {
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.ck.ck-placeholder-form .ck-button:nth-of-type(2) {
+  grid-area: 3 / 2 / 4 / 3;
+}

@@ -1,66 +1,93 @@
 {
-  "private": true,
-  "dependencies": {
-    "@ant-design/icons": "^5.0.1",
-    "@bud-fe/react-pc-ui": "^0.7.0",
-    "@ckeditor/ckeditor5-basic-styles": "^36.0.1",
-    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
-    "@ckeditor/ckeditor5-dev-utils": "^35.0.2",
-    "@ckeditor/ckeditor5-editor-classic": "^36.0.1",
-    "@ckeditor/ckeditor5-essentials": "^36.0.1",
-    "@ckeditor/ckeditor5-html-support": "^36.0.1",
-    "@ckeditor/ckeditor5-paragraph": "^36.0.1",
-    "@ckeditor/ckeditor5-source-editing": "^36.0.1",
-    "@ckeditor/ckeditor5-theme-lark": "^36.0.1",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "antd": "^5.3.0",
-    "bold": "link:@ckeditor/ckeditor5-basic-styles/src/bold",
-    "docx-preview": "^0.1.15",
-    "docx2html": "^1.3.2",
-    "es6-promise": "^4.2.8",
-    "html2canvas": "1.4.1",
-    "html2pdf.js": "0.9.3",
-    "italic": "link:@ckeditor/ckeditor5-basic-styles/src/italic",
-    "jspdf": "^2.5.1",
-    "jspdf-html2canvas": "^1.4.9",
-    "mammoth": "^1.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^3.0.4"
-  },
+  "name": "@bud-fe/file-sdk",
+  "version": "1.0.0-beta.4",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "clean": "rimraf dist",
+    "build": "pnpm clean && tsc && webpack --config webpack.config.js",
+    "prepare": "is-ci || husky install",
+    "eslint": "npx eslint src --ext .js,.ts,.jsx,.tsx",
+    "eslint:fix": "npx eslint src --fix --ext .js,.ts,.jsx,.tsx",
+    "stylelint": "npx stylelint 'src/**/*.{css,less,scss}'",
+    "stylelint:fix": "npx stylelint --fix 'src/**/*.{css,less,scss}'",
+    "prettier": "npx prettier --write src"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.ab-inbev.cn/ab-inbev-apac/bud-fe-file-sdk"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "author": "heng.zhang2@budweiserapac.com",
+  "bugs": {
+    "url": "https://github.ab-inbev.cn/ab-inbev-apac/bud-fe-file-sdk/issues"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
-    "css-loader": "^5.2.7",
-    "customize-cra": "^1.0.0",
-    "postcss-loader": "^4.3.0",
+    "@bud-fe/f2elint": "^0.2.1",
+    "@ckeditor/ckeditor5-dev-utils": "^35.0.3",
+    "css-loader": "^6.7.3",
+    "postcss-loader": "^7.1.0",
     "raw-loader": "^4.0.2",
-    "react-app-rewired": "^2.2.1",
-    "style-loader": "^2.0.0"
+    "rimraf": "^4.4.0",
+    "style-loader": "^3.3.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-autoformat": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-basic-styles": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-block-quote": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-cloud-services": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-code-block": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-core": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-editor-classic": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-essentials": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-find-and-replace": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-heading": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-html-support": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-image": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-indent": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-link": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-list": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-markdown-gfm": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-media-embed": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-paragraph": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-paste-from-office": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-source-editing": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-table": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-theme-lark": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-typing": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-ui": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-upload": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-utils": "v37.0.0-alpha.2",
+    "@ckeditor/ckeditor5-widget": "v37.0.0-alpha.2",
+    "docx-preview": "^0.1.15",
+    "es6-promise": "^4.2.8",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json}": [
+      "npx prettier --write",
+      "npx eslint"
+    ],
+    "src/**/*.{css,less,scss}": [
+      "npx stylelint"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
