@@ -2,6 +2,9 @@
 
 > 文件处理、渲染、编辑工具包，编辑器基于 [CKEditor5](https://ckeditor.com/ckeditor-5/) 做自定义构建，在编辑器的工具栏里扩展了一些如：pdf 下载、占位符、word 导入等插件; 支持对 docx 文件的预览和编辑，支持 html 转 PDF 的下载。
 
+![npm (scoped)](https://img.shields.io/npm/v/wind-file-sdk?style=flat-square)
+![npm](https://img.shields.io/npm/dt/wind-file-sdk?style=flat-square)
+
 ## 安装与使用
 
 ```bash
